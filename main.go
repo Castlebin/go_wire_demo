@@ -50,10 +50,18 @@ Event (
 */
 
 // 使用wire前
+/*
 func main() {
 	message := NewMessage("hello world")
 	greeter := NewGreeter(message)
 	event := NewEvent(greeter)
+
+	event.Start()
+}
+*/
+// 使用wire后
+func main() {
+	event := InitializeEvent("hello world")
 
 	event.Start()
 }
