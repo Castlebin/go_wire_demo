@@ -137,3 +137,24 @@ func main() {
 }
 ```
 
+### 2.3. 解释 wire.go 文件
+在上面的 2. Quick Start 的例子中，NewMessage, NewGreeter, NewEvent 都是 provider，wire_gen.go 中的 InitializeEvent 函数是 injector，可以看到 injector 通过按依赖顺序调用 provider 来生成我们需要的对象Event。
+
+上述示例在wire.go中定义了injector的函数签名，注意要在文件第一行加上
+```go
+// +build wireinject
+...
+```
+用于告诉编译器无需编译该文件。
+
+在 injector 的签名定义函数中，通过调用 wire.Build 方法，指定用于生成依赖的 provider:
+```go
+// InitializeEvent 声明injector的函数签名
+func InitializeEvent(msg string) Event{
+	wire.Build(NewEvent, NewGreeter, NewMessage) // <--- 传入provider函数
+	return Event{}  //返回值没有实际意义，只需符合函数签名即可
+}
+```
+该方法的返回值没有实际意义，只需要符合函数签名的要求即可。
+
+
